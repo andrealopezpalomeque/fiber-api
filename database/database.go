@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/andrealopezpalomeque/fiber-api/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -30,7 +31,7 @@ func ConnectDb(){
 	
 
 	//TODO: Add migrations --------------------------------------------
-
+	db.AutoMigrate(&models.User{}, &models.Product{}, &models.Order{}) //this will create the tables 
 
 	Database = DbInstance{Db: db}
 
