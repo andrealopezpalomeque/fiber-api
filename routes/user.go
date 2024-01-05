@@ -39,13 +39,18 @@ func CreateUser(c *fiber.Ctx) error {
 }
 
 func GetUsers(c *fiber.Ctx) error {
+	//slice para guardar los usuarios de la base de datos
 	users := []models.User{}
 
 	database.Database.Db.Find(&users)
 
+	//slice para guardar la respuesta simplificada de los usuarios
 	responseUsers := []User{}
+
 	for _, user := range users {
+		//creo una respuesta simplificada por CADA usuario
 		responseUser := CreateResponseUser(user)
+		//agrego la respuesta simplificada al slice de respuesta
 		responseUsers = append(responseUsers, responseUser)
 	}
 
