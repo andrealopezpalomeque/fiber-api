@@ -14,18 +14,24 @@ type User struct {
 	LastName string `json:"last_name"`
 }
 
+// CreateResponseUser takes a models.User and returns a simplified User for response.
 func CreateResponseUser(user models.User) User {
 	return User{ID: user.ID, FirstName: user.FirstName, LastName: user.LastName}
 }
 
 func CreateUser(c *fiber.Ctx) error {
+	//variable para guardar el body del request
 	var user models.User
 
+	//BODY PARSER ->  parsing the request body, which is typically in JSON format, into the user variable, which is of type models.User.
 	if err := c.BodyParser(&user); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
-
+	//crear usuario en la base de datos
 	database.Database.Db.Create(&user)
+	
+
+	//respuesta simplificada del usuario
 	responseUser := CreateResponseUser(user)
 
 	return c.Status(200).JSON(responseUser)
